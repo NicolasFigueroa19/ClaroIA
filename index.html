@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+  <title>Claro Colombia - Conectamos tu mundo</title>
+  <style>
+    /* ====== ESTILOS GENERALES ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f7f7f7;
+      color: #333;
+    }
+
+    header {
+      background-color: #e60000;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.6em;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: url('https://upload.wikimedia.org/wikipedia/commons/7/74/Claro_logo.svg') no-repeat center/contain,
+                  linear-gradient(to bottom right, #e60000, #b30000);
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .hero h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: #222;
+      color: #aaa;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    /* ====== CHATBOT ====== */
+    #chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background: white;
+      border: 2px solid #e60000;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+    }
+
+    #chat-header {
+      background: #e60000;
+      color: white;
+      padding: 10px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #chat-body {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      height: 250px;
+    }
+
+    #chat-body p {
+      margin: 8px 0;
+    }
+
+    .user { text-align: right; color: #e60000; }
+    .bot { text-align: left; color: #333; }
+
+    #chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    #chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    #chat-input button {
+      background: #e60000;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    #chat-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #e60000;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Claro Colombia</h1>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Servicios</a>
+      <a href="#">Planes</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>Conectamos tu mundo</h2>
+    <p>Internet, telefonía y televisión para todos los colombianos.</p>
+  </div>
+
+  <section>
+    <h2>Servicios Destacados</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/483/483947.png" alt="Móvil">
+        <h3>Planes Móviles</h3>
+        <p>Datos ilimitados, minutos y redes sociales sin límites.</p>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1033/1033949.png" alt="Internet">
+        <h3>Internet Hogar</h3>
+        <p>Conexiones de alta velocidad con fibra óptica en todo el país.</p>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1022/1022283.png" alt="TV">
+        <h3>Televisión</h3>
+        <p>Los mejores canales y contenido exclusivo para tu familia.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Claro Colombia (Sitio de ejemplo). Todos los derechos reservados.
+  </footer>
+
+  <!-- Botón del chat -->
+  <button id="chat-btn">💬</button>
+
+  <!-- Ventana del chatbot -->
+  <div id="chatbot">
+    <div id="chat-header">Asistente Claro IA</div>
+    <div id="chat-body"></div>
+    <div id="chat-input">
+      <input type="text" id="userInput" placeholder="Escribe tu mensaje...">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    // Mostrar/ocultar chatbot
+    const chatBtn = document.getElementById('chat-btn');
+    const chatbot = document.getElementById('chatbot');
+    chatBtn.addEventListener('click', () => {
+      chatbot.style.display = chatbot.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Simulación básica de agente IA
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const body = document.getElementById('chat-body');
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      // Mensaje del usuario
+      body.innerHTML += `<p class="user"><strong>Tú:</strong> ${userMsg}</p>`;
+
+      // Respuesta del bot (aquí puedes conectar tu IA real)
+      let botReply = "Hola 👋 Soy el asistente virtual de Claro. ¿En qué puedo ayudarte?";
+      if (userMsg.toLowerCase().includes('internet')) {
+        botReply = "Nuestros planes de Internet hogar van desde 100 Mbps hasta 1 Gbps con fibra óptica.";
+      } else if (userMsg.toLowerCase().includes('móvil')) {
+        botReply = "Ofrecemos planes móviles prepago y pospago con redes 4G y 5G.";
+      } else if (userMsg.toLowerCase().includes('precio')) {
+        botReply = "Puedes consultar los precios actualizados en la sección de Planes o contactando a un asesor.";
+      }
+
+      setTimeout(() => {
+        body.innerHTML += `<p class="bot"><strong>Claro IA:</strong> ${botReply}</p>`;
+        body.scrollTop = body.scrollHeight;
+      }, 500);
+
+      input.value = '';
+    }
+  </script>
+  <script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://cessative-sultanic-alisa.ngrok-free.dev/webhook/fad494f9-0d8b-4737-85a9-04a0b927f1fe/chat'
+	});
+</script>
+</body>
+</html>
